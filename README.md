@@ -1,3 +1,3 @@
-# Sales 2023
+# Implement project ShoppingCartEvent
 ## Introducción
-Este es el projecto de ejemplo de una carrito de compras
+Aplicaciòn carrito de compras
