@@ -24,32 +24,28 @@ namespace Sales.API.Controllers
                 .ToListAsync());
         }
 
-        //[HttpGet("full")]
-        //public async Task<IActionResult> GetFullAsync()
-        //{
-        //    return Ok(await _context.Countries
-        //        .Include(x => x.States!)
-        //        .ThenInclude(x => x.Cities)
-        //        .ToListAsync());
-        //}
+        [HttpGet("full")]
+        public async Task<IActionResult> GetFullAsync()
+        {
+            return Ok(await _context.Categories
+                .ToListAsync());
+        }
 
-        //[HttpGet("{id:int}")]
-        //public async Task<IActionResult> GetAsync(int id)
-        //{
-        //    var country = await _context.Countries
-        //        .Include(x => x.States!)
-        //        .ThenInclude(x => x.Cities)
-        //        .FirstOrDefaultAsync(x => x.Id == id);
-        //    if (country == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(country);
-        //}
+            return Ok(category);
+        }
 
         [HttpPost]
-        public async Task<ActionResult> PostAsync(Category category)
+        public async Task<ActionResult> PostAsync(Category  category)
         {
             try
             {
@@ -72,44 +68,44 @@ namespace Sales.API.Controllers
             }
         }
 
-        //[HttpPut]
-        //public async Task<ActionResult> PutAsync(Country country)
-        //{
-        //    try
-        //    {
-        //        _context.Update(country);
-        //        await _context.SaveChangesAsync();
-        //        return Ok(country);
-        //    }
-        //    catch (DbUpdateException dbUpdateException)
-        //    {
-        //        if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
-        //        {
-        //            return BadRequest("Ya existe un país con el mismo nombre.");
-        //        }
+        [HttpPut]
+        public async Task<ActionResult> PutAsync(Category category)
+        {
+            try
+            {
+                _context.Update(category);
+                await _context.SaveChangesAsync();
+                return Ok(category);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe una categoría con el mismo nombre.");
+                }
 
-        //        return BadRequest(dbUpdateException.Message);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        return BadRequest(exception.Message);
-        //    }
-        //}
+                return BadRequest(dbUpdateException.Message);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
 
-        //[HttpDelete("{id:int}")]
-        //public async Task<IActionResult> DeleteAsync(int id)
-        //{
-        //    var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == id);
-        //    if (country == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
 
-        //    _context.Remove(country);
-        //    await _context.SaveChangesAsync();
-        //    return NoContent();
-        //}
+            _context.Remove(category);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 
-    //}
 }
+
