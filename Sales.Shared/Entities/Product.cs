@@ -2,17 +2,18 @@
 
 namespace Sales.Shared.Entities
 {
-    public class Category
+    public class Product
     {
+
         public int Id { get; set; }
 
-        [Display(Name = "Categoría")]
+        [Display(Name = "Producto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} caractéres")]
         public string Name { get; set; } = null!;
 
-        public ICollection<ProductCategory>? ProductCategory { get; set; }
+        public int ProductCategoryId { get; set; }
 
-        public int ProductCategoryNumber => ProductCategory == null ? 0 : ProductCategory.Count;
+        public ProductCategory? ProductCategory { get; set; }
     }
 }
