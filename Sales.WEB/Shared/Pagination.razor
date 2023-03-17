@@ -15,43 +15,14 @@
     [Parameter] public int TotalPages { get; set; }
     [Parameter] public int Radio { get; set; } = 5;
     [Parameter] public EventCallback<int> SelectedPage { get; set; }
-    List<PageModel> Links = new List<PageModel>();
-
-
-
-
+    List<PageModel> Links = new();
 
     protected override void OnParametersSet()
     {
-        CargarPaginas();
-
-    }
-
-    private async Task InternalSelectedPage(PageModel pageModel)
-    {
-        if (pageModel.Page == CurrentPage)
-        {
-            return;
-        }
-
-        if (!pageModel.Enable)
-        {
-            return;
-        }
-
-        CurrentPage = pageModel.Page;
-
-        CargarPaginas();
-
-        await SelectedPage.InvokeAsync(pageModel.Page);
-    }
-
-    private void CargarPaginas()
-    {
-
         Links = new List<PageModel>();
+
         var previousLinkEnable = CurrentPage != 1;
-        var previousLinkPage = (CurrentPage == 1) ? 1 : CurrentPage - 1;
+        var previousLinkPage = CurrentPage - 1;
         Links.Add(new PageModel
             {
                 Text = "Anterior",
@@ -68,22 +39,30 @@
                         Page = i,
                         Enable = CurrentPage == i,
                         Text = $"{i}"
-                        
                     });
             }
         }
 
         var linkNextEnable = CurrentPage != TotalPages;
-        var linkNextPage = (CurrentPage == TotalPages) ? TotalPages : CurrentPage + 1;
+        var linkNextPage = CurrentPage + 1;
         Links.Add(new PageModel
             {
                 Text = "Siguiente",
                 Page = linkNextPage,
                 Enable = linkNextEnable
             });
+
     }
 
-  
+    private async Task InternalSelectedPage(PageModel pageModel)
+    {
+        if (pageModel.Page == CurrentPage || pageModel.Page == 0)
+        {
+            return;
+        }
+
+        await SelectedPage.InvokeAsync(pageModel.Page);
+    }
 
     class PageModel
     {

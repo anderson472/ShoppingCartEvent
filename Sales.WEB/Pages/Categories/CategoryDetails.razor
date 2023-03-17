@@ -10,11 +10,11 @@
 {
     <h3>@category.Name</h3>
     <div class="mb-2">
-        <a class="btn btn-primary" href="/productCategory/create/@category.Id">Nuevo Producto/Categoría</a>
+        @*<a class="btn btn-primary" href="/productCategory/create/@category.Id">Nuevo Producto/Categoría</a>*@
         <a class="btn btn-success" href="/category">Regresar</a>
     </div>
 
-    <GenericList MyList="productCategory">
+   @* <GenericList MyList="productCategory">*@
         <Body>
             <table class="table table-striped">
                 <thead>
@@ -25,31 +25,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var productCategory in productCategory!)
+                  @* @foreach (var productCategory in productCategory!)*@
                     {
                         <tr>
                             <td>
-                                @productCategory.Name
+                               @* @productCategory.Name*@
                             </td>
                             <td>
-                                @productCategory.ProductsNumber
+                                @*@productCategory.ProductsNumber*@
                             </td>
                             <td>
-                                <a class="btn btn-info" href="/productCategory/details/@productCategory.Id">Detalles</a>
+                                @*<a class="btn btn-info" href="/productCategory/details/@productCategory.Id">Detalles</a>
                                 <a class="btn btn-warning" href="/productCategory/edit/@productCategory.Id">Editar</a>
-                                <button class="btn btn-danger" @onclick=@(() => DeleteAsync(productCategory.Id))>Borrar</button>
+                                <button class="btn btn-danger" @onclick=@(() => DeleteAsync(productCategory.Id))>Borrar</button>*@
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </Body>
-    </GenericList>
+@*    </GenericList>*@
 }
 
 @code {
     private Category? category;
-    private List<ProductCategory>? productCategory;
+    //private List<ProductCategory>? productCategory;
 
     [Parameter]
     public int Id { get; set; }
@@ -76,7 +76,7 @@
         }
 
         category = responseHttp.Response;
-        productCategory = category!.ProductCategory!.ToList();
+        //productCategory = category!.ProductCategory!.ToList();
     }
 
     private async Task DeleteAsync(int id)
@@ -97,16 +97,16 @@
             return;
         }
 
-        var responseHttp = await repository.Delete($"/api/productCategory/{id}");
-        if (responseHttp.Error)
-        {
-            if (responseHttp.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
-        }
+        //var responseHttp = await repository.Delete($"/api/productCategory/{id}");
+        //if (responseHttp.Error)
+        //{
+        //    if (responseHttp.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+        //    {
+        //        var message = await responseHttp.GetErrorMessageAsync();
+        //        await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+        //        return;
+        //    }
+        //}
 
         await LoadAsync();
     }
