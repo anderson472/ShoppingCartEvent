@@ -5,6 +5,7 @@ using Sales.Shared.Entities;
 using Sales.Shared.Enums;
 using Sales.Shared.Responses;
 
+
 namespace Sales.API.Data
 {
     public class SeedDb
