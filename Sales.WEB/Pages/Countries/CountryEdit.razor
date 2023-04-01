@@ -41,6 +41,10 @@ else
         country = responseHttp.Response;
     }
 
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+
     private async Task EditAsync()
     {
         var responseHttp = await repository.Put("/api/countries", country);
@@ -50,7 +54,7 @@ else
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
         Return();
     }
 
