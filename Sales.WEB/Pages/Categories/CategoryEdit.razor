@@ -1,13 +1,13 @@
-﻿@page "/categories/edit/{Id:int}"
+﻿@page "/categories/edit/{CategoryId:int}"
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
 
-<h3>Editar Categoría</h3>
+<h3>Editar categoría</h3>
 
 @if (category is null)
 {
-    <p>Cargando...</p>
+    <div class="spinner" />
 }
 else
 {
@@ -19,11 +19,11 @@ else
     private CategoryForm? categoryForm;
 
     [Parameter]
-    public int Id { get; set; }
+    public int CategoryId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await repository.Get<Category>($"/api/categories/{Id}");
+        var responseHttp = await repository.Get<Category>($"/api/categories/{CategoryId}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
@@ -56,6 +56,6 @@ else
     private void Return()
     {
         categoryForm!.FormPostedSuccessfully = true;
-        navigationManager.NavigateTo("/categories");
+        navigationManager.NavigateTo($"/categories");
     }
 }

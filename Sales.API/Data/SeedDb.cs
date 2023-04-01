@@ -5,7 +5,6 @@ using Sales.Shared.Entities;
 using Sales.Shared.Enums;
 using Sales.Shared.Responses;
 
-
 namespace Sales.API.Data
 {
     public class SeedDb
@@ -25,8 +24,32 @@ namespace Sales.API.Data
         {
             await _context.Database.EnsureCreatedAsync();
             await CheckCountriesAsync();
+            await CheckCategoriesAsync();
             await CheckRolesAsync();
             await CheckUserAsync("1010", "Anderson", "Garcia", "ander@yopmail.com", "322 311 4620", "Calle Nueva", UserType.Admin);
+        }
+
+        private async Task CheckCategoriesAsync()
+        {
+            if (!_context.Categories.Any())
+            {
+                _context.Categories.Add(new Category { Name = "Deportes" });
+                _context.Categories.Add(new Category { Name = "Calzado" });
+                _context.Categories.Add(new Category { Name = "Tecnología " });
+                _context.Categories.Add(new Category { Name = "Lenceria" });
+                _context.Categories.Add(new Category { Name = "Erótica" });
+                _context.Categories.Add(new Category { Name = "Comida" });
+                _context.Categories.Add(new Category { Name = "Ropa" });
+                _context.Categories.Add(new Category { Name = "Jugetes" });
+                _context.Categories.Add(new Category { Name = "Mascotas" });
+                _context.Categories.Add(new Category { Name = "Autos" });
+                _context.Categories.Add(new Category { Name = "Cosmeticos" });
+                _context.Categories.Add(new Category { Name = "Hogar" });
+                _context.Categories.Add(new Category { Name = "Jardín" });
+                _context.Categories.Add(new Category { Name = "Ferreteria" });
+                _context.Categories.Add(new Category { Name = "Video Juegos" });
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task CheckRolesAsync()
@@ -45,6 +68,7 @@ namespace Sales.API.Data
                 {
                     city = await _context.Cities.FirstOrDefaultAsync();
                 }
+
                 user = new User
                 {
                     FirstName = firstName,
@@ -78,7 +102,7 @@ namespace Sales.API.Data
                     List<CountryResponse> countries = (List<CountryResponse>)responseCountries.Result!;
                     foreach (CountryResponse countryResponse in countries)
                     {
-                        Country country =  _context.Countries!.FirstOrDefault(c => c.Name == countryResponse.Name!)!;
+                        Country? country = await _context.Countries!.FirstOrDefaultAsync(c => c.Name == countryResponse.Name!)!;
                         if (country == null)
                         {
                             country = new() { Name = countryResponse.Name!, States = new List<State>() };
@@ -128,3 +152,5 @@ namespace Sales.API.Data
         }
     }
 }
+
+
