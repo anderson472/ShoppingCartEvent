@@ -15,7 +15,7 @@ else
         <div class="card-header">
             <span>
                 <i class="oi oi-globe"></i> @country.Name
-                <a class="btn btn-sm btn-primary float-end" @onclick=@(() => ShowModal())><i class="oi oi-plus"></i> Nuevo Estado/Departamento</a>
+                <a class="btn btn-sm btn-primary float-end"  @onclick=@(() => ShowModal(country.Id))><i class="oi oi-plus"></i> Nuevo Estado/Departamento</a>
                 <a class="btn btn-sm btn-success float-end mx-2" href="/countries"><i class="oi oi-arrow-thick-left"></i> Regresar</a>
             </span>
         </div>
@@ -187,7 +187,7 @@ else
         }
         else
         {
-            modalReference = Modal.Show<StateCreate>();
+            modalReference = Modal.Show<StateCreate>(string.Empty, new ModalParameters().Add("CountryId", id));
 
         }
 
